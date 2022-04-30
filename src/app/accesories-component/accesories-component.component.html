@@ -1,0 +1,155 @@
+
+
+<div class="row gy-1"  style="background-color: #181818; height: 100vh; width: 100vw;">
+    
+<!-- #181818; -->
+        <div class="col-12  flex" style="height:24vh;">
+                <br><br><br>
+            <div class="row">
+                <div class="col-5" style="margin-top: 5px;">
+                    <div class="row gy-3"  style="height:17vh;  margin-left: 20px;">
+                        <div class="col-4">
+                            <a>
+                                <input type="text"  list="attributes" size="40" class="att" style=" height:40px; width:18vw;background-color: grey;">
+                                <datalist id="attributes" style="background-color: grey;" >
+                                    <option *ngFor="let at of attributes" >
+                                        {{at.nombre}}
+                                    </option>
+                                </datalist>
+                            </a>
+                        </div>
+                        <div class="col-8" >
+                             <button   class="btn btn-light" style="float:right; width:60px;height:40px; " (click)="addBonus()">Add</button>
+                            <a  style="float:right;">
+                                <label><input type="number" id="attValue" value="first_checkbox" min="0" max="1000" style="width:60px;height:40px; background-color: grey;"> %</label>
+                            </a>
+                           
+                        </div>
+                        <div class="col-12" >
+                            <a style="float:left; color:white;">
+                                Starter Set
+                            </a>
+                        </div>
+                        <div class="col-12" >
+                            <a >
+                                <select class="col-12" style="height: 40px;background-color: grey; "id="setFilter" (change)="selectOnChange()">
+                                    <option style="background-color: grey;">
+                                        All accesories
+                                    </option>
+                                    <option *ngFor="let set of allAccesories" style="background-color: grey;">
+                                        {{set.nombre}}
+                                    </option>
+                                </select>
+                            </a>
+                        </div>
+                    </div> 
+                </div>
+
+                <div class="col-3" style="margin-top: 5px;">
+                    <div class="row gy-3"  style=" height:17vh;" >
+                        <div class="col-12" style="text-align: center;">
+                            <input type="checkbox" id="filter" value="first_checkbox" ><label style="text-align: center;margin-left:5px; color:white;">filter sets by stats</label>
+                        </div>
+                        <div class="col-12" style="text-align: center;">
+                            <input type="checkbox" id="sorted" value="first_checkbox" ><label style="text-align: center;margin-left:5px;color:white;">sort sets by attributes</label>
+                        </div>
+                        <div class="col-12">
+                            <div class="container" style="text-align: center;">
+                                <button  class=" btn btn-dark " style="text-align: center; background-color: grey; color: blue;" (click)="generateNewCombos()">Generate Combos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" style="margin-top: 5px;">
+                    <div class="row gy-3"  style="height:17vh;"> 
+                        <div class="col-12">
+                            <div class="container">
+                                <ul class="list-group " style="height: 13vh;  overflow-y: scroll; background-color: grey;"  >
+                                    <li class="list-group-item " *ngFor="let attribute of attributesFilter2;   let i=index;" style="background-color: grey;">
+                                    <span >
+                                    {{i+1}} - {{attribute.nombreAtributo}}   
+                                    </span>
+                                    <a id="deleteAttribute" class="col-1 btnShow2" style="cursor: pointer;float:right;" (click)="deleteAttribute(i)">&#10006;</a>
+                                    <a id="downArrow" class="col-1 btnShow2" style="cursor: pointer;float:right;" (click)="downArrow(i)">&#11015;</a>
+                                    <a id="upArrow"class="col-1 btnShow2" style="cursor: pointer;float:right;" (click)="upArrow(i)">&#11014;</a>
+                                    <span class="col-1" style="float:right;">{{attribute.valor}}</span>   
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-6" style="height:73vh;">
+            <table class="table table-hover"  style="width:45vw;  margin: 0 auto; height: 61vh;margin-top: 20px;">
+                <tbody *ngFor="let set of accesorios |slice:from:to; let i=index" style="background-color: grey;">
+                  <tr>
+                    <td><span >{{from+i+1}} - {{set.nombre}}</span> </td>
+                    <td><button class="btn btn-light" style="float:right;" (click)="changeShowSet(from,i)" (mouseover)="onFocusSet(from,i)" (mouseout)="onBlurSet(from,i)">show</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              <mat-paginator #paginator [length]="accesorios.length"
+                             [pageSize]="pageSize"
+                             (page)="changePage($event)" style="margin-left: 30px;margin-right: 30px;margin-top: 10px;">
+
+              </mat-paginator>
+              
+        </div>
+        <div class="col-6" style="overflow-y: scroll; height:73vh;">
+            <div class="container row gy-3" >
+                <div class="container" style="text-align: center;">
+                    <h1 style="color:white;">{{showSet.nombre}}</h1>
+                </div>
+                
+                <div class="col-6" >
+                    <img src="assets/images/accesorios/{{showSet.partes[0].nombre}}.jpg" alt="" style="height:50px; width:50px;" (mouseover)="mostrarInfoParte(showSet.partes[0],showSet)">
+                    <a style="font-size:smaller;color:white;">{{showSet.partes[0].nombre}} ({{showSet.partes[0].valor}})</a>
+                </div>
+                <div class="col-6">
+                    <img src="assets/images/accesorios/{{showSet.partes[1].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <a style="font-size:smaller;color:white;">{{showSet.partes[1].nombre}} ({{showSet.partes[1].valor}})</a>
+                </div>
+                <div class="col-6" >
+                    <img src="assets/images/accesorios/{{showSet.partes[2].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <a style="font-size:smaller;color:white;">{{showSet.partes[2].nombre}} ({{showSet.partes[2].valor}})</a>
+                </div>
+                <div class="col-6">
+                    <img src="assets/images/accesorios/{{showSet.partes[3].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <a style="font-size:smaller;color:white;">{{showSet.partes[3].nombre}} ({{showSet.partes[3].valor}})</a>
+                </div>
+                <div class="col-6" >
+                    <img src="assets/images/accesorios/{{showSet.partes[4].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <a style="font-size:smaller;color:white;">{{showSet.partes[4].nombre}} ({{showSet.partes[4].valor}})</a>
+                </div>
+                <div class="col-6">
+                    <img src="assets/images/accesorios/{{showSet.partes[5].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <a style="font-size:smaller; color:white;">{{showSet.partes[5].nombre}} ({{showSet.partes[5].valor}})</a>
+                </div>
+                <div class="col-6" >
+                    <img src="assets/images/accesorios/{{showSet.partes[6].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <a style="font-size:smaller; color:white;">{{showSet.partes[6].nombre}} ({{showSet.partes[6].valor}})</a>
+                </div>
+                <div class="col-6">
+                    <img src="assets/images/accesorios/{{showSet.partes[7].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <a style="font-size:smaller; color:white;">{{showSet.partes[7].nombre}} ({{showSet.partes[7].valor}})</a>
+                </div>
+                <div class="container row gy-3">
+                    
+                        <div class="container row gy-1" *ngFor="let bonuses of showSet.bonuses; let i=index;" style="border: 1px solid #000; border-radius: 10px;">
+                            <div class="col-6" *ngFor="let bonus of showSet.bonuses[i].bonuses" >
+                                <a style="color:white;" >{{bonus.nombreAtributo}} - </a><a style="color:blueviolet; float:right;">{{bonus.valor}}</a>
+                            </div>
+                            <br>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+
+      
+        
+</div>

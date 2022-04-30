@@ -1,0 +1,8 @@
+.columna{
+    height:30vh;
+    margin-top: 2%;
+    align-self: center;
+}
+.tablaSets{
+    overflow-y: scroll;
+}
