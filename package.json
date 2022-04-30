@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "heroku-postbuild":"ng build --prod"
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -32,7 +32,8 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4",
     "typescript": "~4.6.2",
-    "express":"^4.17.1"
+    "express": "^4.17.1",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.3.1",
@@ -48,9 +49,8 @@
     "karma-jasmine-html-reporter": "~1.7.0",
     "typescript": "~4.6.2"
   },
-  "engines":{
+  "engines": {
     "npm": "6.14.7",
     "node": "16.14.2"
-
   }
 }
